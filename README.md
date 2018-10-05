@@ -1,4 +1,6 @@
-# React, TypeScript, Storybook config
+# React + Storybook Configuration and Setup
+
+> A guide that will help you to setup and run React + Storybook configuration.
 
 1.  Create a needed folder
     `mkdir folder_name`
@@ -266,3 +268,99 @@
     ```
 
     Now it is alow to change a color using `"Knobs"` tab.
+
+12. Configure TypeScript with Storybook
+
+    - Create 2 new files: `webpack.config.js` and `tsconfig.json`
+
+    ```sh
+    touch .storybook/webpack.config.js tsconfig.json
+    ```
+
+    - Add `TypeScript` `dev` dependencies: the types definition for react, typescript, and the typescript loader.
+
+    ```sh
+    yarn add -D @types/react typescript awesome-typescript-loader
+    ```
+
+    - Setup a usual `TS` config in `tsconfig.json`:
+
+    ```json
+    {
+      "compilerOptions": {
+        "outDir": "build/lib",
+        "module": "commonjs",
+        "target": "es5",
+        "lib": ["es5", "es6", "es7", "es2017", "dom"],
+        "sourceMap": true,
+        "allowJs": false,
+        "jsx": "react",
+        "moduleResolution": "node",
+        "rootDir": "src",
+        "baseUrl": "src",
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "noUnusedLocals": true,
+        "declaration": true,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true
+      },
+      "include": ["src/**/*"],
+      "exclude": ["node_modules", "build", "scripts"]
+    }
+    ```
+
+    - Heads up to `webpack.config.js`. For ts and tsx files, we're going to require that it use TypeScript loader and also make it recognize ts and tsx files
+
+    ```javascript
+    const path = require("path");
+
+    module.exports = (baseConfig, env, defaultConfig) => {
+      // config
+      defaultConfig.module.rules.push({
+        test: /\.(ts|tsx)$/,
+        loader: require.resolve("awesome-typescript-loader")
+      });
+      defaultConfig.resolve.extensions.push(".ts", ".tsx");
+      return defaultConfig;
+    };
+    ```
+
+    - Edit Button component:
+
+    ```
+    import * as React from "react";
+    import "./Button.css";
+
+    export interface Props {
+    children: React.ReactNode;
+    onClick: () => void;
+    disabled?: boolean;
+    }
+
+    const noop = {};
+
+    export const Button = (props: Props) => {
+    const { children, onClick, disabled = false } = props;
+    const disabledclass = disabled ? "Button_disabled" : "";
+    return (
+        <div
+        className={`Button ${disabledclass}`}
+        onClick={!disabled ? onClick : noop}
+        >
+        <span>{children}</span>
+        </div>
+    );
+    };
+    ```
+
+    References:
+    add storybook docs
+
+    and
+
+    https://egghead.io/lessons/react-automate-documentation-generation-in-your-typescript-react-codebase-with-storybook
