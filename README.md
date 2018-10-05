@@ -2,6 +2,26 @@
 
 > A guide that will help you to setup and run React + Storybook configuration.
 
+- A quick way:
+
+  - Clone the repo:
+
+  ```sh
+  git clone git@github.com:IvaTsu/react-storybook-config.git
+  ```
+
+  - Install dependencies:
+
+  ```sh
+  yarn
+  ```
+
+  - Run Storybook on local server:
+
+  ```sh
+  yarn run storybook
+  ```
+
 1.  Create a needed folder
     `mkdir folder_name`
 2.  Inside that folder run `yarn init -y`. This creates a default `package.json` file.
