@@ -24,9 +24,20 @@
 
 - Manual configuration:
 
-  1.  Create a needed folder
-      `mkdir folder_name`
-  2.  Inside that folder run `yarn init -y`. This creates a default `package.json` file.
+  - Create a needed folder
+
+    ```sh
+    mkdir react-storybook-config
+    ```
+
+  - Inside the `react-storybook-config/` folder run
+
+    ```sh
+    yarn init -y
+    ```
+
+    This commnad creates a default `package.json` file. I will use `yarn` from this point and beyond.
+
   3.  Let's start with adding dependencies:
       - `yarn add -D @storybook/react babel-core` - it adds _@storybook/react_ and _babel-core_ to your _dev dependencies_.
       - `yarn add react react-dom` - it adds your _core dependencies_, e.g. _react_ and _react-dom_.
