@@ -150,44 +150,44 @@
     ...
     ```
 
-  9.  Display component's JSX with the help of JSX Addon:
+  - Display component's JSX with the help of JSX Addon:
 
-      - Instal `dev` dependencies:
+    - Instal `dev` dependencies:
 
-      ```
-      yarn add -D @storybook/addons@4.0.0-alpha.24 storybook-addon-jsx
-      ```
+    ```
+    yarn add -D @storybook/addons@4.0.0-alpha.24 storybook-addon-jsx
+    ```
 
-      - Create a new file `addons.js` inside `.storybook/` folder:
+    - Create a new file `addons.js` inside `.storybook/` folder:
 
-      ```
-      import "storybook-addon-jsx/register";
-      ```
+    ```
+    import "storybook-addon-jsx/register";
+    ```
 
-      internally it executes the registration function.
+    internally it executes the registration function.
 
-      - In `config.js` file import `setAddon` method and `storybook-addon-jsx`:
+    - In `config.js` file import `setAddon` method and `storybook-addon-jsx`:
 
-      ```
-      import { configure, setAddon } from "@storybook/react";
-      import JSXAddon from "storybook-addon-jsx";
-      ```
+    ```
+    import { configure, setAddon } from "@storybook/react";
+    import JSXAddon from "storybook-addon-jsx";
+    ```
 
-      and pair them together:
+    and pair them together:
 
-      ```
-      setAddon(JSXAddon);
-      ```
+    ```
+    setAddon(JSXAddon);
+    ```
 
-      and now it is possible to use it in any story in the following way:
+    and now it is possible to use it in any story in the following way:
 
-      ```
-      storiesOf("Button", module).addWithJSX("with background", () => (
-          <Button bg="red" title="Button" />
-      ));
-      ```
+    ```
+    storiesOf("Button", module).addWithJSX("with background", () => (
+        <Button bg="red" title="Button" />
+    ));
+    ```
 
-      `.addWithJSX` will display the whole component structore at the storybook.
+    `.addWithJSX` will display the whole component structore at the storybook.
 
   - Turn Story into documentation with Info Addon.
 
@@ -318,94 +318,100 @@
 
 ---
 
-12. Configure TypeScript with Storybook
+# React + TypeScript + Storybook Configuration and Setup
 
-    - Create 2 new files: `webpack.config.js` and `tsconfig.json`
+> A guide that will help you to setup and run React + TypeScript + Storybook configuration.
 
-    ```sh
-    touch .storybook/webpack.config.js tsconfig.json
-    ```
+I will take a `React + Storybook` config described above as a reference for this one.
 
-    - Add `TypeScript` `dev` dependencies: the types definition for react, typescript, and the typescript loader.
+- Configure TypeScript with Storybook
 
-    ```sh
-    yarn add -D @types/react typescript awesome-typescript-loader
-    ```
+  - Create 2 new files: `webpack.config.js` and `tsconfig.json`
 
-    - Setup a usual `TS` config in `tsconfig.json`:
+  ```sh
+  touch .storybook/webpack.config.js tsconfig.json
+  ```
 
-    ```json
-    {
-      "compilerOptions": {
-        "outDir": "build/lib",
-        "module": "commonjs",
-        "target": "es5",
-        "lib": ["es5", "es6", "es7", "es2017", "dom"],
-        "sourceMap": true,
-        "allowJs": false,
-        "jsx": "react",
-        "moduleResolution": "node",
-        "rootDir": "src",
-        "baseUrl": "src",
-        "forceConsistentCasingInFileNames": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "noUnusedLocals": true,
-        "declaration": true,
-        "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true
-      },
-      "include": ["src/**/*"],
-      "exclude": ["node_modules", "build", "scripts"]
-    }
-    ```
+  - Add `TypeScript` `dev` dependencies: the types definition for react, typescript, and the typescript loader.
 
-    - Heads up to `webpack.config.js`. For ts and tsx files, we're going to require that it use TypeScript loader and also make it recognize ts and tsx files
+  ```sh
+  yarn add -D @types/react typescript awesome-typescript-loader
+  ```
 
-    ```javascript
-    const path = require("path");
+  - Setup a usual `TS` config in `tsconfig.json`:
 
-    module.exports = (baseConfig, env, defaultConfig) => {
-      // config
-      defaultConfig.module.rules.push({
-        test: /\.(ts|tsx)$/,
-        loader: require.resolve("awesome-typescript-loader")
-      });
-      defaultConfig.resolve.extensions.push(".ts", ".tsx");
-      return defaultConfig;
-    };
-    ```
+  ```json
+  {
+    "compilerOptions": {
+      "outDir": "build/lib",
+      "module": "commonjs",
+      "target": "es5",
+      "lib": ["es5", "es6", "es7", "es2017", "dom"],
+      "sourceMap": true,
+      "allowJs": false,
+      "jsx": "react",
+      "moduleResolution": "node",
+      "rootDir": "src",
+      "baseUrl": "src",
+      "forceConsistentCasingInFileNames": true,
+      "noImplicitReturns": true,
+      "noImplicitThis": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "noUnusedLocals": true,
+      "declaration": true,
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "build", "scripts"]
+  }
+  ```
 
-    - Edit Button component:
+  - Heads up to `webpack.config.js`. For ts and tsx files, we're going to require that it use TypeScript loader and also make it recognize ts and tsx files
 
-    ```
-    import * as React from "react";
-    import "./Button.css";
+  ```javascript
+  const path = require("path");
 
-    export interface Props {
-    children: React.ReactNode;
-    onClick: () => void;
-    disabled?: boolean;
-    }
+  module.exports = (baseConfig, env, defaultConfig) => {
+    // config
+    defaultConfig.module.rules.push({
+      test: /\.(ts|tsx)$/,
+      loader: require.resolve("awesome-typescript-loader")
+    });
+    defaultConfig.resolve.extensions.push(".ts", ".tsx");
+    return defaultConfig;
+  };
+  ```
 
-    const noop = {};
+  - Edit Button component:
 
-    export const Button = (props: Props) => {
-    const { children, onClick, disabled = false } = props;
-    const disabledclass = disabled ? "Button_disabled" : "";
-    return (
-        <div
-        className={`Button ${disabledclass}`}
-        onClick={!disabled ? onClick : noop}
-        >
-        <span>{children}</span>
-        </div>
-    );
-    };
-    ```
+  ```
+  import * as React from "react";
+  import "./Button.css";
+
+  export interface Props {
+  children: React.ReactNode;
+  onClick: () => void;
+  disabled?: boolean;
+  }
+
+  const noop = {};
+
+  export const Button = (props: Props) => {
+  const { children, onClick, disabled = false } = props;
+  const disabledclass = disabled ? "Button_disabled" : "";
+  return (
+      <div
+      className={`Button ${disabledclass}`}
+      onClick={!disabled ? onClick : noop}
+      >
+      <span>{children}</span>
+      </div>
+  );
+  };
+  ```
 
 References:
 add storybook docs
