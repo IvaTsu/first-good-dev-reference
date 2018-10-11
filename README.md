@@ -397,7 +397,7 @@ I will take a `React + Storybook` config described above as a reference for this
   disabled?: boolean;
   }
 
-  const noop = {};
+  const noop = () => {};
 
   export const Button = (props: Props) => {
   const { children, onClick, disabled = false } = props;
@@ -413,8 +413,38 @@ I will take a `React + Storybook` config described above as a reference for this
   };
   ```
 
-References:
-add storybook docs
+      - Add `Button.css` file:
+
+      ```css
+      .Button span {
+
+          margin: auto;
+          font-size: 16px;
+          font-weight: bold;
+          text-align: center;
+          color: #fff;
+          text-transform: uppercase;
+          }
+          .Button {
+          padding: 0px 20px;
+          height: 49px;
+          border-radius: 2px;
+          border: 2px solid var(--ui-bkgd, #3d5567);
+          display: inline-flex;
+          background-color: var(--ui-bkgd, #3d5567);
+          }
+
+          .Button:hover:not(.Button_disabled) {
+          cursor: pointer;
+          }
+
+          .Button_disabled {
+          --ui-bkgd: rgba(61, 85, 103, 0.3);
+      }
+      ```
+
+  References:
+  add storybook docs
 
 and
 
