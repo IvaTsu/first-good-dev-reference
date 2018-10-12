@@ -24,3 +24,21 @@
   ```sh
   yarn run storybook
   ```
+
+---
+
+- Manual configuration:
+
+  - Create a needed folder:
+
+  ```sh
+  mkdir react-storybook-config
+  ```
+
+  - Inside the `./react-storybook-config/` folder run
+
+  ```sh
+  yarn init -y
+  ```
+
+  This command creates a default `package.json` file. I will use `yarn` from this point and beyond.
