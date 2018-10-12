@@ -1,296 +1,280 @@
-- Manual configuration:
+- Let's start with adding dependencies:
 
-  - Create a needed folder
+  - `yarn add -D @storybook/react@4.0.0-alpha.24 @babel/core babel-loader` - it adds _@storybook/react_, _@babel/core_ and _babel-loader_ to your _dev dependencies_.
 
-    ```sh
-    mkdir react-storybook-config
-    ```
+  - `yarn add react react-dom` - it adds _react_ and _react-dom_ to the _dependencies_.
 
-  - Inside the `react-storybook-config/` folder run
+  - Don't forger to add `node_modules/` to `.gitignore` file.
 
-    ```sh
-    yarn init -y
-    ```
+- Create 2 additional folders `.storybook` and `src` by running `mkdir .storybook src` command in your `root` folder.
 
-    This commnad creates a default `package.json` file. I will use `yarn` from this point and beyond.
+- Create an empty config file for the _storybook_: `touch .storybook/config.js`. This file is a **required** one for storybook to run.
 
-  - Let's start with adding dependencies:
+- Add script for further convenient use of storybook in the futute:
 
-    - `yarn add -D @storybook/react@4.0.0-alpha.24 @babel/core babel-loader` - it adds _@storybook/react_, _@babel/core_ and _babel-loader_ to your _dev dependencies_.
+  - Go to the `package.json` file.
+  - Add "scripts" there in the following way:
 
-    - `yarn add react react-dom` - it adds _react_ and _react-dom_ to the _dependencies_.
+  ```json
+  "scripts": {
+      "storybook": "start-storybook -p 6006 -c .storybook"
+  }
+  ```
 
-    - Don't forger to add `node_modules/` to `.gitignore` file.
+  - Here `-p` flag means port you want to run server on, `-c` flag means folder that contains config file.
 
-  - Create 2 additional folders `.storybook` and `src` by running `mkdir .storybook src` command in your `root` folder.
+  - Now wen you run command `yarn run storybook`, it starts a server at localhost:6006 and you can navigate there to see the results.
 
-  - Create an empty config file for the _storybook_: `touch .storybook/config.js`. This file is a **required** one for storybook to run.
+- Add first _React Story_ to _Storybook_:
 
-  - Add script for further convenient use of storybook in the futute:
+  - Go to the `.storybook/config.js` and import _configure_ method from _storybook_.
 
-    - Go to the `package.json` file.
-    - Add "scripts" there in the following way:
+  ```
+  import { configure } from "@storybook/react";
+  ```
 
-    ```json
-    "scripts": {
-        "storybook": "start-storybook -p 6006 -c .storybook"
-    }
-    ```
+  - Define utility function that will look through everything in `./src` folder and use a RegExp to find files that will ends with `.stories.js`
 
-    - Here `-p` flag means port you want to run server on, `-c` flag means folder that contains config file.
+  ```
+  const req = require.context("../src/", true, /.stories.js$/);
+  ```
 
-    - Now wen you run command `yarn run storybook`, it starts a server at localhost:6006 and you can navigate there to see the results.
+  - Define a function `loadStories` in the following way:
 
-  - Add first _React Story_ to _Storybook_:
+  ```
+  function loadStories() {
+      req.keys().forEach(file => req(file));
+  }
+  ```
 
-    - Go to the `.storybook/config.js` and import _configure_ method from _storybook_.
+  - for the every file that is matched, it is needed to require the file to build the story.
+  - Configure current function with the current module:
 
-    ```
-    import { configure } from "@storybook/react";
-    ```
+  ```
+  configure(loadStories, module);
+  ```
 
-    - Define utility function that will look through everything in `./src` folder and use a RegExp to find files that will ends with `.stories.js`
+  - Create an example component: - Create `Button.js` file inside `src` folder: `touch ./src/Button.js`. - Create a basic component setup:
 
-    ```
-    const req = require.context("../src/", true, /.stories.js$/);
-    ```
+  ```
+  import React from "react";
 
-    - Define a function `loadStories` in the following way:
+  export default ({ bg, title }) => (
+      <button style={{ backgroundColor: bg }}>{ title }</button>
+  );
+  ```
 
-    ```
-    function loadStories() {
-        req.keys().forEach(file => req(file));
-    }
-    ```
+  - Create a story file for the component:
 
-    - for the every file that is matched, it is needed to require the file to build the story.
-    - Configure current function with the current module:
+  - Create file `Button.stories.js` right near with `Button.js`.
 
-    ```
-    configure(loadStories, module);
-    ```
+  ```
+  import React from "react";
+  import { storiesOf } from "@storybook/react";
+  import Button from "./Button";
 
-    - Create an example component: - Create `Button.js` file inside `src` folder: `touch ./src/Button.js`. - Create a basic component setup:
+  storiesOf("Button", module).add("with background", () => (
+      <Button bg="red" title="Button" />
+  ));
+  ```
 
-    ```
-    import React from "react";
+- Add a Welcome Story Page
 
-    export default ({ bg, title }) => (
-        <button style={{ backgroundColor: bg }}>{ title }</button>
-    );
-    ```
+  - Create `welcomeStory.js` file inside `.storybook/` folder.
+  - Import needed dependencies:
 
-    - Create a story file for the component:
+  ```
+  import React from "react";
+  import { storiesOf } from "@storybook/react";
+  ```
 
-    - Create file `Button.stories.js` right near with `Button.js`.
+  - Define the story:
 
-    ```
-    import React from "react";
-    import { storiesOf } from "@storybook/react";
-    import Button from "./Button";
+  ```
+  storiesOf("Welcome", module).add("to the Storybook!", () => (
+      <h1>Welcome to the Storybook!</h1>
+  ));
+  ```
 
-    storiesOf("Button", module).add("with background", () => (
-        <Button bg="red" title="Button" />
-    ));
-    ```
+  - Add it to the `loadStory` method in `./.storybook/config.js`
 
-  - Add a Welcome Story Page
-
-    - Create `welcomeStory.js` file inside `.storybook/` folder.
-    - Import needed dependencies:
-
-    ```
-    import React from "react";
-    import { storiesOf } from "@storybook/react";
-    ```
-
-    - Define the story:
-
-    ```
-    storiesOf("Welcome", module).add("to the Storybook!", () => (
-        <h1>Welcome to the Storybook!</h1>
-    ));
-    ```
-
-    - Add it to the `loadStory` method in `./.storybook/config.js`
-
-    ```
-    ...
-    const WelcomeStory = require("./welcomeStory.js");
-
-    function loadStories() {
-        WelcomeStory;
-        ...
-    }
-
-    ...
-    ```
-
-  - Display component's JSX with the help of JSX Addon:
-
-    - Instal `dev` dependencies:
-
-    ```
-    yarn add -D @storybook/addons@4.0.0-alpha.24 storybook-addon-jsx
-    ```
-
-    - Create a new file `addons.js` inside `.storybook/` folder:
-
-    ```
-    import "storybook-addon-jsx/register";
-    ```
-
-    internally it executes the registration function.
-
-    - In `config.js` file import `setAddon` method and `storybook-addon-jsx`:
-
-    ```
-    import { configure, setAddon } from "@storybook/react";
-    import JSXAddon from "storybook-addon-jsx";
-    ```
-
-    and pair them together:
-
-    ```
-    setAddon(JSXAddon);
-    ```
-
-    and now it is possible to use it in any story in the following way:
-
-    ```
-    storiesOf("Button", module).addWithJSX("with background", () => (
-        <Button bg="red" title="Button" />
-    ));
-    ```
-
-    `.addWithJSX` will display the whole component structore at the storybook.
-
-  - Turn Story into documentation with Info Addon.
-
-    - Install `dev` dependencies: `yarn add -D @storybook/addon-info@4.0.0-alpha.24`
-    - Import addon to the Story you need:
-
-    ```
-    import { withInfo } from "@storybook/addon-info";
-    ```
-
-    - Add withInfo to your component:
-
-    ```
-    storiesOf("Button", module).addWithJSX(
-        "with background",
-        withInfo("description of the Button component")(
-            () => (<Button bg="red" title="Button" />)
-        )
-    );
-    ```
-
-    At the Storybook you will see "Show info" button. After clicking on it, there will be description you wrote into `withInfo`. `withInfo` supports `markdown`, so it is possible to style the description.
-    It is also possible to style `withInfo` by passing there an object like that:
-
-    ```
-    withInfo({
-        styles: {
-            header: {
-                h1: {
-                    color: 'red',
-                },
-            },
-        },
-        text: `
-            description goes here
-        `
-    })
-    ```
-
-    It is not necessarily needed to define inline styles every time.
-    It is possible create a utilities file and create some default stylings for your Storybook: - Create `utils.js` file inside `.storybook/` folder.
-
-    ```
-    import { withInfo } from "@storybook/addon-info";
-
-        const withInfoStyle = {
-            header: {
-                h1: {
-                    marginRight: "2rem",
-                    fontSize: "1.5rem",
-                    display: "inline"
-                },
-                body: {
-                    padding: 0
-                },
-                h2: {
-                    display: "inline"
-                }
-            },
-            infoBody: {
-                backgroundColor: "#EEE"
-            }
-        };
-
-        export const wInfo = text =>
-            withInfo({ text, inline: true, source: false, styles: withInfoStyle });
-    ```
-
-    and then apply import `wInfo` to the component's story:
-
-    ```
-    import React from "react";
-    import { storiesOf } from "@storybook/react";
-    import { wInfo } from "./utils";
-    import Button from "./Button";
-
-    storiesOf("Button", module).addWithJSX(
-        "with background",
-        wInfo("description of the Button component")(() => (
-            <Button bg="red" title="Button" />
-        ))
-    );
-    ```
-
-  - Interactive Stories with Knobs Decorator:
-
-    - Install `dev` dependency: `yarn add -D @storybook/addon-knobs`
-    - Register it in `addons.js`:
-
-    ```
-    ...
-    import "@storybook/addon-knobs/register";
-    ```
-
-    - Import `addDecorator` from `@storybook/react` in `config.js` file.
-
-    ```
-    import { configure, setAddon, addDecorator } from "@storybook/react";
-    ```
-
-    - Import `withKnobs` in `config.js` file and register it.
-
-    ```
-    ...
-    import { withKnobs } from "@storybook/addon-knobs/react";
-    ...
-    addDecorator(withKnobs);
-    ```
-
-    - Go to the Story, import appropriate `knob`:
-
-    ```
-    import React from "react";
-    import { storiesOf } from "@storybook/react";
-    import { text } from "@storybook/addon-knobs/react";
-    import { wInfo } from "./utils";
-    import Button from "./Button";
-
-    storiesOf("Button", module).addWithJSX(
-        "with background",
-        wInfo("description of the Button component")(() => (
-            <Button bg={text("bg", "red")} title="Button" />
-        ))
-    );
-    ```
-
-    Now it is alow to change a color using `"Knobs"` tab.
+  ```
+  ...
+  const WelcomeStory = require("./welcomeStory.js");
+
+  function loadStories() {
+      WelcomeStory;
+      ...
+  }
+
+  ...
+  ```
+
+- Display component's JSX with the help of JSX Addon:
+
+  - Instal `dev` dependencies:
+
+  ```
+  yarn add -D @storybook/addons@4.0.0-alpha.24 storybook-addon-jsx
+  ```
+
+  - Create a new file `addons.js` inside `.storybook/` folder:
+
+  ```
+  import "storybook-addon-jsx/register";
+  ```
+
+  internally it executes the registration function.
+
+  - In `config.js` file import `setAddon` method and `storybook-addon-jsx`:
+
+  ```
+  import { configure, setAddon } from "@storybook/react";
+  import JSXAddon from "storybook-addon-jsx";
+  ```
+
+  and pair them together:
+
+  ```
+  setAddon(JSXAddon);
+  ```
+
+  and now it is possible to use it in any story in the following way:
+
+  ```
+  storiesOf("Button", module).addWithJSX("with background", () => (
+      <Button bg="red" title="Button" />
+  ));
+  ```
+
+  `.addWithJSX` will display the whole component structore at the storybook.
+
+- Turn Story into documentation with Info Addon.
+
+  - Install `dev` dependencies: `yarn add -D @storybook/addon-info@4.0.0-alpha.24`
+  - Import addon to the Story you need:
+
+  ```
+  import { withInfo } from "@storybook/addon-info";
+  ```
+
+  - Add withInfo to your component:
+
+  ```
+  storiesOf("Button", module).addWithJSX(
+      "with background",
+      withInfo("description of the Button component")(
+          () => (<Button bg="red" title="Button" />)
+      )
+  );
+  ```
+
+  At the Storybook you will see "Show info" button. After clicking on it, there will be description you wrote into `withInfo`. `withInfo` supports `markdown`, so it is possible to style the description.
+  It is also possible to style `withInfo` by passing there an object like that:
+
+  ```
+  withInfo({
+      styles: {
+          header: {
+              h1: {
+                  color: 'red',
+              },
+          },
+      },
+      text: `
+          description goes here
+      `
+  })
+  ```
+
+  It is not necessarily needed to define inline styles every time.
+  It is possible create a utilities file and create some default stylings for your Storybook: - Create `utils.js` file inside `.storybook/` folder.
+
+  ```
+  import { withInfo } from "@storybook/addon-info";
+
+      const withInfoStyle = {
+          header: {
+              h1: {
+                  marginRight: "2rem",
+                  fontSize: "1.5rem",
+                  display: "inline"
+              },
+              body: {
+                  padding: 0
+              },
+              h2: {
+                  display: "inline"
+              }
+          },
+          infoBody: {
+              backgroundColor: "#EEE"
+          }
+      };
+
+      export const wInfo = text =>
+          withInfo({ text, inline: true, source: false, styles: withInfoStyle });
+  ```
+
+  and then apply import `wInfo` to the component's story:
+
+  ```
+  import React from "react";
+  import { storiesOf } from "@storybook/react";
+  import { wInfo } from "./utils";
+  import Button from "./Button";
+
+  storiesOf("Button", module).addWithJSX(
+      "with background",
+      wInfo("description of the Button component")(() => (
+          <Button bg="red" title="Button" />
+      ))
+  );
+  ```
+
+- Interactive Stories with Knobs Decorator:
+
+  - Install `dev` dependency: `yarn add -D @storybook/addon-knobs`
+  - Register it in `addons.js`:
+
+  ```
+  ...
+  import "@storybook/addon-knobs/register";
+  ```
+
+  - Import `addDecorator` from `@storybook/react` in `config.js` file.
+
+  ```
+  import { configure, setAddon, addDecorator } from "@storybook/react";
+  ```
+
+  - Import `withKnobs` in `config.js` file and register it.
+
+  ```
+  ...
+  import { withKnobs } from "@storybook/addon-knobs/react";
+  ...
+  addDecorator(withKnobs);
+  ```
+
+  - Go to the Story, import appropriate `knob`:
+
+  ```
+  import React from "react";
+  import { storiesOf } from "@storybook/react";
+  import { text } from "@storybook/addon-knobs/react";
+  import { wInfo } from "./utils";
+  import Button from "./Button";
+
+  storiesOf("Button", module).addWithJSX(
+      "with background",
+      wInfo("description of the Button component")(() => (
+          <Button bg={text("bg", "red")} title="Button" />
+      ))
+  );
+  ```
+
+  Now it is alow to change a color using `"Knobs"` tab.
 
 ---
 
