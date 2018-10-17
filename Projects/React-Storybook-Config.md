@@ -322,3 +322,7 @@
   Now it is alow to change a color using `"Knobs"` tab.
 
 That's it. Enjoy!
+
+## References:
+
+- [Storybook Docs](https://storybook.js.org/basics/guide-react/)
