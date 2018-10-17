@@ -150,10 +150,3 @@ I will take a `React + Storybook` config described above as a reference for this
       </Button>
     ));
   ```
-
-  References:
-  add storybook docs
-
-and
-
-https://egghead.io/lessons/react-automate-documentation-generation-in-your-typescript-react-codebase-with-storybook
