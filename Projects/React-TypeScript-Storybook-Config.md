@@ -150,3 +150,7 @@ I will take a `React + Storybook` config described above as a reference for this
       </Button>
     ));
   ```
+
+## References:
+
+- [Storybook Docs](https://storybook.js.org/basics/guide-react/)
