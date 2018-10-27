@@ -35,6 +35,13 @@
   mkdir react-storybook-config
   ```
 
+  So, now you should have such folder structure:
+
+  ```
+  react-storybook-config
+  |--
+  ```
+
   - Inside the `./react-storybook-config/` folder run
 
   ```sh
