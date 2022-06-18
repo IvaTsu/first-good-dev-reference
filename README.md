@@ -7,7 +7,7 @@
 ## Projects
 
 - [React + Storybook Config](./projects/React-Storybook-Config.md)
-- [React + TypeScript + Storybok Config](./projects/React-TypeScript-Storybook-Config.md)
+- [React + TypeScript + Storybook Config](./projects/React-TypeScript-Storybook-Config.md)
 
 ## Meta
 
