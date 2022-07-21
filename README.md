@@ -9,6 +9,11 @@
 - [React + Storybook Config](./projects/React-Storybook-Config.md)
 - [React + TypeScript + Storybook Config](./projects/React-TypeScript-Storybook-Config.md)
 
+## Theory
+
+- [Traditional Web Application Lifecycle](./theory/traditional-web-application-lifecycle/Traditional-Web-Application-Lifecycle.md)
+- [Single Page Application Lifecycle](./theory/single-page-application-lifecycle/Single-Page-Application-Lifecycle.md)
+
 ## Meta
 
 Ivan Tsud – [@JStr00per](https://twitter.com/JStr00per) – ivts@tuta.io
