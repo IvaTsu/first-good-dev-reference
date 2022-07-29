@@ -4,7 +4,7 @@
 
 ![license](https://img.shields.io/badge/license-MIT-blue.svg)
 
-## Projects
+## Projects (old/deprecated & need review)
 
 - [React + Storybook Config](./projects/React-Storybook-Config.md)
 - [React + TypeScript + Storybook Config](./projects/React-TypeScript-Storybook-Config.md)
