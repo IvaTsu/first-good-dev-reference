@@ -19,6 +19,7 @@
 
 - [Traditional Web Application Lifecycle](./theory/traditional-web-application-lifecycle/Traditional-Web-Application-Lifecycle.md)
 - [Single Page Application Lifecycle](./theory/single-page-application-lifecycle/Single-Page-Application-Lifecycle.md)
+- [Stop using JWT for sessions](http://cryto.net/%7Ejoepie91/blog/2016/06/13/stop-using-jwt-for-sessions/)
 
 ## Meta
 
@@ -32,6 +33,7 @@ Distributed under the MIT license. See [LICENSE](LICENSE) for more information.
 
 - [React](https://reactjs.org/)
 - [Storybook](https://storybook.js.org/)
+- [JWT](http://jwt.io)
 
 ## Acknowledgments
 
