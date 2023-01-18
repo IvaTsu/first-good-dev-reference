@@ -1,4 +1,4 @@
-# FIRST - GOOD - JAVASCRIPT - REFERENCE
+# FIRST - GOOD - DEV - REFERENCE
 
 > The aim of this repo: to create, collect and maintain different Tutorials, Practices, Solutions that can simplify and make development smooth.
 
@@ -22,7 +22,7 @@
 
 ## Meta
 
-Ivan Tsud – [@JStr00per](https://twitter.com/JStr00per) – ivts@tuta.io
+Ivan Tsud – [@JStr00per](https://twitter.com/JStr00per) – ivts.dev@gmail.com
 
 Distributed under the MIT license. See [LICENSE](LICENSE) for more information.
 
@@ -36,4 +36,4 @@ Distributed under the MIT license. See [LICENSE](LICENSE) for more information.
 ## Acknowledgments
 
 - Hat tip to anyone whose code was used.
-- Made with <span style="color: #e25555;">&#9829;</span> in Estonia.
+- Made with <span style="color: #e25555;">&#9829;</span> in Estonia and Sweden.
